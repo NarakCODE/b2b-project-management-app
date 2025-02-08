@@ -32,8 +32,6 @@ app.use(
   cors({
     origin: config.FRONTEND_ORIGIN,
     credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     maxAge: 86400,
   })
 );
