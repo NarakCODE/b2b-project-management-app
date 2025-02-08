@@ -17,6 +17,7 @@ import workspaceRoutes from './routes/workspace.route';
 import memberRoutes from './routes/member.route';
 import projectRoutes from './routes/project.route';
 import taskRouter from './routes/task.route';
+import { HTTPSTATUS } from './config/http.config';
 
 dotenv.config();
 
@@ -27,14 +28,6 @@ const BASE_PATH = config.BASE_PATH;
 console.log('Loaded PORT:', process.env.PORT); // Debug log
 
 console.log('Final PORT:', PORT); // C
-
-app.use(
-  cors({
-    origin: config.FRONTEND_ORIGIN,
-    credentials: true,
-    maxAge: 86400,
-  })
-);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -64,18 +57,40 @@ app.use(
   })
 );
 
+// app.get(
+//   `/`,
+//   asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+//     throw new BadRequestException('Bad request', ErrorCodeEnum.AUTH_NOT_FOUND);
+//     // return res.status(HTTPSTATUS.OK).json({
+//     //   message: 'Welcome to B2B Project Management API',
+//     // });
+//   })
+// );
+
+app.use(
+  cors({
+    origin: config.FRONTEND_ORIGIN,
+    credentials: true,
+    maxAge: 86400,
+  })
+);
+
 app.get(
   `/`,
   asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    throw new BadRequestException('Bad request', ErrorCodeEnum.AUTH_NOT_FOUND);
-    // return res.status(HTTPSTATUS.OK).json({
-    //   message: 'Welcome to B2B Project Management API',
-    // });
+    throw new BadRequestException(
+      'This is a bad request',
+      ErrorCodeEnum.AUTH_INVALID_TOKEN
+    );
+    return res.status(HTTPSTATUS.OK).json({
+      message: 'Hello Subscribe to the channel & share',
+    });
   })
 );
 
 app.use(`${BASE_PATH}/auth`, authRoutes);
-app.use(`${BASE_PATH}/user`, isAuthenticated, userRoutes);
+app.use(`${BASE_PATH}/user`, userRoutes);
+// app.use(`${BASE_PATH}/user`, isAuthenticated, userRoutes);
 app.use(`${BASE_PATH}/workspace`, isAuthenticated, workspaceRoutes);
 app.use(`${BASE_PATH}/member`, isAuthenticated, memberRoutes);
 app.use(`${BASE_PATH}/project`, isAuthenticated, projectRoutes);
