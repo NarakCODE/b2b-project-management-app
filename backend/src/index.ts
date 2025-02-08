@@ -30,7 +30,7 @@ console.log('Final PORT:', PORT); // C
 
 app.use(
   cors({
-    origin: [config.FRONTEND_ORIGIN],
+    origin: config.FRONTEND_ORIGIN,
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -51,7 +51,7 @@ app.use(
       secure: config.NODE_ENV === 'production', // Use secure cookies in production
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
       httpOnly: true, // Prevent client-side JS from reading the cookie
-      sameSite: 'lax', // CSRF protection
+      sameSite: 'none', // CSRF protection
     },
   })
 );
