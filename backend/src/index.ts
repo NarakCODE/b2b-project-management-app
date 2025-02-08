@@ -25,11 +25,10 @@ const app = express();
 const PORT = process.env.PORT || 8082;
 const BASE_PATH = config.BASE_PATH;
 
-console.log('Loaded PORT:', process.env.PORT); // Debug log
-
-console.log('Final PORT:', PORT); // C
-
 app.use(express.json());
+app.use(passport.initialize());
+app.use(passport.session()); // This allows passport to use session
+
 app.use(express.urlencoded({ extended: true }));
 
 app.use(
@@ -46,9 +45,6 @@ app.use(
     },
   })
 );
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use(
   cors({

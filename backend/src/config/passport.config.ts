@@ -79,7 +79,7 @@ passport.use(
 // passport.deserializeUser((user: any, done) => done(null, user));
 
 passport.serializeUser((user: any, done) => done(null, user._id)); // Store only the user ID
-passport.deserializeUser(async (id: any, done) => {
+passport.deserializeUser(async (id: string, done) => {
   try {
     console.log('Deserializing user with ID:', id); // Log the user ID
     const user = await UserModel.findById(id);
