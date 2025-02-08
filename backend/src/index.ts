@@ -27,7 +27,7 @@ const BASE_PATH = config.BASE_PATH;
 
 app.use(express.json());
 app.use(passport.initialize());
-app.use(passport.session()); // This allows passport to use sessions
+app.use(passport.session()); // This allows passport to use session
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -45,9 +45,6 @@ app.use(
     },
   })
 );
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use(
   cors({
