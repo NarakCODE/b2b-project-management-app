@@ -13,7 +13,7 @@ import { getEnv } from '../utils/get-env';
 
 const appConfig = () => ({
   NODE_ENV: getEnv('NODE_ENV', process.env.NODE_ENV),
-  PORT: getEnv('PORT', '5000'),
+  PORT: getEnv('PORT', process.env.PORT),
   BASE_PATH: getEnv('BASE_PATH', '/api'),
   MONGODB_URI: getEnv('MONGODB_URI', process.env.MONGODB_URI),
 
