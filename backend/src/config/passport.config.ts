@@ -75,15 +75,22 @@ passport.use(
     }
   )
 );
+// passport.serializeUser((user: any, done) => done(null, user));
+// passport.deserializeUser((user: any, done) => done(null, user));
 
-passport.serializeUser((user: any, done) => done(null, user));
-passport.deserializeUser((user: any, done) => done(null, user));
-// passport.serializeUser((user: any, done) => done(null, user._id)); // Store only the user ID
-// passport.deserializeUser(async (id: any, done) => {
-//   try {
-//     const user = await UserModel.findById(id); // Fetch user by ID
-//     done(null, user); // Attach user object to req.user
-//   } catch (error) {
-//     done(error, null); // Handle errors
-//   }
-// });
+passport.serializeUser((user: any, done) => done(null, user._id)); // Store only the user ID
+passport.deserializeUser(async (id: any, done) => {
+  try {
+    console.log('Deserializing user with ID:', id); // Log the user ID
+    const user = await UserModel.findById(id);
+    if (!user) {
+      console.error('User not found for ID:', id); // Log if user is not found
+      return done(new Error('User not found'), null);
+    }
+    console.log('Deserialized user:', user); // Log the fetched user
+    done(null, user);
+  } catch (error) {
+    console.error('Error deserializing user:', error); // Log any errors
+    done(error, null);
+  }
+});
