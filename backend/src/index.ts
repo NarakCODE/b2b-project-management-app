@@ -68,6 +68,8 @@ app.use(
     origin: config.FRONTEND_ORIGIN,
     credentials: true,
     maxAge: 86400,
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
   })
 );
 
