@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import session from 'express-session';
@@ -22,8 +21,12 @@ import taskRouter from './routes/task.route';
 dotenv.config();
 
 const app = express();
-const PORT = config.PORT || 8082;
+const PORT = process.env.PORT || 8082;
 const BASE_PATH = config.BASE_PATH;
+
+console.log('Loaded PORT:', process.env.PORT); // Debug log
+
+console.log('Final PORT:', PORT); // C
 
 app.use(
   cors({
