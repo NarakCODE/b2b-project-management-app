@@ -6,8 +6,8 @@
     "seed": "ts-node ./src/seeders/role.seeder.ts",
     "data:seed": "ts-node ./src/seeders/data-seeder.ts",
     "dev": "ts-node-dev --files src/index.ts",
-    "build": "tsc && cp /package.json ./dist",
-    "start": "node dist/index.js"
+    "build": "tsc && cp package.json dist/",
+    "start": "node ./dist/index.js"
   },
   "keywords": [],
   "author": "",
