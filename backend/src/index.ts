@@ -22,6 +22,7 @@ import taskRouter from './routes/task.route';
 dotenv.config();
 
 const app = express();
+const PORT = config.PORT || 8082;
 const BASE_PATH = config.BASE_PATH;
 
 app.use(
@@ -81,9 +82,7 @@ app.use(`${BASE_PATH}/task`, isAuthenticated, taskRouter);
 
 app.use(errorHandler);
 
-app.listen(config.PORT, async () => {
-  console.log(
-    `Server is running on port ${config.PORT} in ${config.NODE_ENV} mode`
-  );
+app.listen(PORT, async () => {
+  console.log(`Server is running on port ${PORT} in ${config.NODE_ENV} mode`);
   await connectDatabase();
 });
