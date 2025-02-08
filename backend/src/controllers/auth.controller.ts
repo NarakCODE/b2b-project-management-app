@@ -50,7 +50,8 @@ export const registerUserController = asyncHandler(
 
 export const loginController = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log('Session', req.session);
+    console.log('Login Controller');
+
     passport.authenticate(
       'local',
       (

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
@@ -11,13 +11,13 @@ const options = {
 const API = axios.create(options);
 
 API.interceptors.response.use(
-  (response) => {
+  response => {
     return response;
   },
-  async (error) => {
+  async error => {
     const { data, status } = error.response;
-    if (data === "Unauthorized" && status === 401) {
-      window.location.href = "/";
+    if (data === 'Unauthorized' && status === 401) {
+      window.location.href = '/';
     }
     return Promise.reject({
       ...data,
