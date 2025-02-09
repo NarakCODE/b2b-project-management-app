@@ -18,7 +18,7 @@ const appConfig = () => ({
   BASE_PATH: getEnv('BASE_PATH', '/api'),
   MONGODB_URI: getEnv('MONGODB_URI', process.env.MONGODB_URI),
 
-  SESSION_SECRET: getEnv('SESSION_SECRET', 'session_secret_key'),
+  SESSION_SECRET: getEnv('SESSION_SECRET', process.env.SESSION_SECRET),
   SESSION_EXPIRES_IN: getEnv('SESSION_EXPIRES_IN', ONE_DAY),
 
   GOOGLE_CLIENT_ID: getEnv('GOOGLE_CLIENT_ID', process.env.GOOGLE_CLIENT_ID),
