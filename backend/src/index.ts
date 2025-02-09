@@ -18,6 +18,7 @@ import memberRoutes from './routes/member.route';
 import projectRoutes from './routes/project.route';
 import taskRouter from './routes/task.route';
 import { HTTPSTATUS } from './config/http.config';
+import MongoStore = require('connect-mongo');
 
 dotenv.config();
 
@@ -26,52 +27,40 @@ const PORT = process.env.PORT || 8082;
 const BASE_PATH = config.BASE_PATH;
 
 app.use(express.json());
-app.use(passport.initialize());
-app.use(passport.session()); // This allows passport to use session
 
 app.use(express.urlencoded({ extended: true }));
 
 app.use(
-  session({
-    name: 'session', // Cookie name
-    secret: config.SESSION_SECRET, // Encryption key
-    resave: false, // Don't save session if unmodified
-    saveUninitialized: false, // Don't create session until something stored
-    cookie: {
-      secure: config.NODE_ENV === 'production', // Use secure cookies in production
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
-      httpOnly: true, // Prevent client-side JS from reading the cookie
-      sameSite: 'none', // CSRF protection
-    },
-  })
-);
-
-app.use(
   cors({
-    origin: [config.FRONTEND_ORIGIN],
-    credentials: true,
-  })
-);
-
-// app.get(
-//   `/`,
-//   asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-//     throw new BadRequestException('Bad request', ErrorCodeEnum.AUTH_NOT_FOUND);
-//     // return res.status(HTTPSTATUS.OK).json({
-//     //   message: 'Welcome to B2B Project Management API',
-//     // });
-//   })
-// );
-
-app.use(
-  cors({
-    origin: config.FRONTEND_ORIGIN,
+    origin: 'http://localhost:5173',
     credentials: true,
     maxAge: 86400,
     allowedHeaders: ['Content-Type', 'Authorization'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   })
 );
+
+app.use(
+  session({
+    name: 'session', // Cookie name
+    secret: config.SESSION_SECRET, // Encryption key
+    resave: false, // Don't save session if unmodified
+    saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: config.MONGODB_URI,
+    }),
+
+    cookie: {
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24, // Session expiration time (e.g., 1 day)
+      httpOnly: true,
+      sameSite: 'lax',
+    },
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get(
   `/`,
@@ -87,8 +76,8 @@ app.get(
 );
 
 app.use(`${BASE_PATH}/auth`, authRoutes);
-app.use(`${BASE_PATH}/user`, userRoutes);
-// app.use(`${BASE_PATH}/user`, isAuthenticated, userRoutes);
+// app.use(`${BASE_PATH}/user`, userRoutes);
+app.use(`${BASE_PATH}/user`, isAuthenticated, userRoutes);
 app.use(`${BASE_PATH}/workspace`, isAuthenticated, workspaceRoutes);
 app.use(`${BASE_PATH}/member`, isAuthenticated, memberRoutes);
 app.use(`${BASE_PATH}/project`, isAuthenticated, projectRoutes);
