@@ -4,6 +4,8 @@ import useWorkspaceId from '@/hooks/use-workspace-id';
 import { getAvatarColor, getAvatarFallbackText } from '@/lib/helper';
 import { format } from 'date-fns';
 import { Loader } from 'lucide-react';
+import EmptyImage from '../../../../public/images/empty.svg';
+import React from 'react';
 
 const RecentMembers = () => {
   const workspaceId = useWorkspaceId();
@@ -19,7 +21,20 @@ const RecentMembers = () => {
         animate-spin
         place-self-center flex'
         />
-      ) : null}
+      ) : (
+        <React.Fragment>
+          {members?.length === 0 && (
+            <div
+              className='font-semibold
+         text-sm text-muted-foreground
+          text-center py-5 max-w-xs w-full mx-auto'
+            >
+              <img src={EmptyImage} alt='Empty image' />
+              <p className='mt-2'>No recent members</p>
+            </div>
+          )}
+        </React.Fragment>
+      )}
 
       <ul role='list' className='space-y-3'>
         {members.map((member, index) => {

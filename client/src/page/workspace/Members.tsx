@@ -17,22 +17,9 @@ export default function Members() {
       <Separator className='my-4 ' />
       <main>
         <div className='w-full max-w-3xl mx-auto pt-3'>
-          {/* <Separator className='my-4' /> */}
-
-          <InviteMember />
-          <Separator className='my-4 !h-[0.5px]' />
+          {/* <Separator className='my-4 !h-[0.5px]' /> */}
           <SkeletonWrapper isLoading={isPending}>
-            <div className='flex -space-x-[0.45rem] mb-2'>
-              {members?.slice(0, 3).map(member => (
-                <img
-                  className='rounded-full ring-1 ring-background'
-                  src={member?.userId.profilePicture || ''}
-                  width={24}
-                  height={24}
-                  alt={member?.userId.name}
-                />
-              ))}
-            </div>
+            <InviteMember members={members} />
           </SkeletonWrapper>
           <div>
             <h2 className='text-lg leading-[30px] font-semibold mb-1'>

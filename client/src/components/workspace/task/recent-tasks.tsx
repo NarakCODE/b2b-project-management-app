@@ -12,6 +12,8 @@ import { TaskType } from '@/types/api.type';
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { Loader } from 'lucide-react';
+import EmptyImage from '../../../../public/images/empty.svg';
+import React from 'react';
 
 const RecentTasks = () => {
   const workspaceId = useWorkspaceId();
@@ -37,16 +39,19 @@ const RecentTasks = () => {
         place-self-center flex
         '
         />
-      ) : null}
-
-      {tasks?.length === 0 && (
-        <div
-          className='font-semibold
+      ) : (
+        <React.Fragment>
+          {tasks?.length === 0 && (
+            <div
+              className='font-semibold
          text-sm text-muted-foreground
-          text-center py-5'
-        >
-          No Task created yet
-        </div>
+          text-center py-5 max-w-xs w-full mx-auto'
+            >
+              <img src={EmptyImage} alt='Empty image' />
+              <p className='mt-2'>No recent tasks</p>
+            </div>
+          )}
+        </React.Fragment>
       )}
 
       <ul role='list' className='divide-y divide-border'>

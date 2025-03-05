@@ -5,6 +5,9 @@ import useGetProjectsInWorkspaceQuery from '@/hooks/api/use-get-projects';
 import { getAvatarColor, getAvatarFallbackText } from '@/lib/helper';
 import { format } from 'date-fns';
 import SkeletonWrapper from '@/components/ui/skeleton-wrapper';
+import EmptyImage from '../../../../public/images/empty.svg';
+import { Loader } from 'lucide-react';
+import React from 'react';
 
 const RecentProjects = () => {
   const workspaceId = useWorkspaceId();
@@ -19,23 +22,27 @@ const RecentProjects = () => {
 
   return (
     <SkeletonWrapper isLoading={isPending}>
-      <div className='flex flex-col pt-2 h-screen'>
-        {/* {isPending ? (
+      <div className='flex flex-col pt-2'>
+        {isPending ? (
           <Loader
             className='w-8 h-8
          animate-spin
          place-self-center
          flex'
           />
-        ) : null} */}
-        {projects?.length === 0 && (
-          <div
-            className='font-semibold
+        ) : (
+          <React.Fragment>
+            {projects?.length === 0 && (
+              <div
+                className='font-semibold
          text-sm text-muted-foreground
-          text-center py-5'
-          >
-            No Project created yet
-          </div>
+          text-center py-5 max-w-xs w-full mx-auto'
+              >
+                <img src={EmptyImage} alt='Empty image' />
+                <p className='mt-2'>No recent projects</p>
+              </div>
+            )}
+          </React.Fragment>
         )}
 
         <ul role='list' className='space-y-2'>

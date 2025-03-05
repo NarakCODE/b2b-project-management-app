@@ -1,15 +1,34 @@
 import PermissionsGuard from '@/components/resuable/permission-guard';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Permissions } from '@/constant';
 import { useAuthContext } from '@/context/auth-provider';
 import { toast } from '@/hooks/use-toast';
 import { BASE_ROUTE } from '@/routes/common/routePaths';
-import { CheckIcon, CopyIcon, Loader } from 'lucide-react';
+import { Loader } from 'lucide-react';
 import { useState } from 'react';
+import InviteMemberDialog from './invite-member-dialog';
 
-const InviteMember = () => {
+interface InviteMemberProps {
+  members: {
+    _id: string;
+    userId: {
+      _id: string;
+      name: string;
+      email: string;
+      profilePicture: string | null;
+    };
+    workspaceId: string;
+    role: {
+      _id: string;
+      name: string;
+    };
+    joinedAt: string;
+    createdAt: string;
+  }[];
+}
+
+const InviteMember = ({ members }: InviteMemberProps) => {
   const { workspace, workspaceLoading } = useAuthContext();
   const [copied, setCopied] = useState(false);
 
@@ -34,6 +53,19 @@ const InviteMember = () => {
   };
   return (
     <div className='flex flex-col pt-0.5 px-0 '>
+      <div className='bg-background flex items-center w-fit p-1 rounded-full border'>
+        {members?.slice(0, 3).map(member => (
+          <div className='flex -space-x-1.5  '>
+            <img
+              className='ring-background rounded-full ring-1'
+              src={member?.userId.profilePicture || ''}
+              width={24}
+              height={24}
+              alt={member?.userId.name}
+            />
+          </div>
+        ))}
+      </div>
       <h5 className='text-lg  leading-[30px] font-semibold mb-1'>
         Invite members to join you
       </h5>
@@ -46,25 +78,17 @@ const InviteMember = () => {
         {workspaceLoading ? (
           <Loader className='animate-spin flex place-self-center' />
         ) : (
-          <div className='flex py-3 gap-2'>
-            <Label htmlFor='link' className='sr-only'>
-              Link
-            </Label>
-            <Input
-              id='link'
-              disabled={true}
-              className='disabled:opacity-100 disabled:pointer-events-none'
-              value={inviteUrl}
-              readOnly
+          <div className='my-4 flex gap-3 flex-col'>
+            <InviteMemberDialog
+              handleCopy={handleCopy}
+              copied={copied}
+              inviteUrl={inviteUrl}
+              trigger={
+                <Button variant='outline' className='w-fit'>
+                  Invite members
+                </Button>
+              }
             />
-            <Button
-              disabled={false}
-              className='shrink-0'
-              size='icon'
-              onClick={handleCopy}
-            >
-              {copied ? <CheckIcon /> : <CopyIcon />}
-            </Button>
           </div>
         )}
       </PermissionsGuard>
