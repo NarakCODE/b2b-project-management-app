@@ -23,6 +23,7 @@ import { toast } from 'sonner';
 import { Loader } from 'lucide-react';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import CreateWorkspaceImage from '../../../public/images/create-workspace.svg';
 
 export default function CreateWorkspaceForm({
   onClose,
@@ -155,10 +156,16 @@ export default function CreateWorkspaceForm({
         </Form>
       </div>
       <div
-        className="relative flex-1 shrink-0 hidden bg-muted md:block
-      bg-[url('https://cdn.dribbble.com/userupload/6246666/file/original-f6bcbba9afdc3fbc205d82204b70cb69.jpg?resize=1504x1128&vertical=center')] bg-cover bg-center h-full
-      "
-      />
+        className={`relative flex-1 shrink-0 hidden bg-muted md:block
+    h-full
+      `}
+      >
+        <img
+          src={CreateWorkspaceImage}
+          alt='Create Workspace'
+          className='w-full h-full object-contain'
+        />
+      </div>
     </main>
   );
 }

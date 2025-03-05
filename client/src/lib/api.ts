@@ -62,7 +62,7 @@ export const getCurrentUserQueryFn =
  * * * * *  Workspace API endpoints * * * *
  */
 // Create workspace
-export const createWorkspaceMutationFn = async (
+export const createWorkspaceMutationFn = async (  
   data: CreateWorkspaceRequestSchemaType
 ): Promise<CreateWorkspaceResponseSchemaType> => {
   const response = await API.post('/workspace/create/new', data);
