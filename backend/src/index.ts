@@ -32,7 +32,24 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_ORIGIN,
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+
+      const allowedOrigins = [
+        process.env.FRONTEND_ORIGIN,
+        'https://b2b-project-management-app-client.vercel.app/',
+      ];
+
+      if (
+        allowedOrigins.indexOf(origin) !== -1 ||
+        origin.includes('-narakcodes-projects.vercel.app')
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
     maxAge: 86400,
     allowedHeaders: ['Content-Type', 'Authorization'],
