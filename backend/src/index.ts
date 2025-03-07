@@ -29,32 +29,40 @@ const BASE_PATH = config.BASE_PATH;
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
-
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin) return callback(null, true); // Allow server-to-server and curl requests
+      const allowedOrigins = [
+        process.env.FRONTEND_ORIGIN, // Ensure this is set in `.env`
+        'https://b2b-project-management-app-client.vercel.app',
+      ];
 
-      // Allow all origins
-      callback(null, true);
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, origin); // Must return the requesting origin, NOT '*'
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    maxAge: 86400,
   })
 );
 
-// Ensure preflight requests get a proper response
+// Ensure preflight requests get a valid response
 app.options('*', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const origin = req.get('Origin');
+  res.setHeader(
+    'Access-Control-Allow-Origin',
+    origin || 'https://b2b-project-management-app-client.vercel.app'
+  );
   res.setHeader(
     'Access-Control-Allow-Methods',
     'GET, POST, PUT, DELETE, OPTIONS'
   );
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.status(HTTPSTATUS.OK).end();
+  res.status(204).end(); // 204 No Content is best for preflight
 });
 
 app.use(
