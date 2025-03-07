@@ -1,6 +1,6 @@
 import PermissionsGuard from '@/components/resuable/permission-guard';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
+// import { Label } from '@/components/ui/label';
 import { Permissions } from '@/constant';
 import { useAuthContext } from '@/context/auth-provider';
 import { toast } from '@/hooks/use-toast';

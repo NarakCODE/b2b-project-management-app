@@ -32,7 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: process.env.FRONTEND_ORIGIN,
     credentials: true,
     maxAge: 86400,
     allowedHeaders: ['Content-Type', 'Authorization'],
