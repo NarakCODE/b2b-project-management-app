@@ -38,12 +38,12 @@ app.use(
 
       const allowedOrigins = [
         process.env.FRONTEND_ORIGIN,
-        'https://b2b-project-management-app-client.vercel.app/',
+        'https://b2b-project-management-app-client.vercel.app',
       ];
 
       if (
         allowedOrigins.indexOf(origin) !== -1 ||
-        origin.includes('-narakcodes-projects.vercel.app')
+        origin.includes('b2b-project-management-app-client')
       ) {
         callback(null, true);
       } else {
