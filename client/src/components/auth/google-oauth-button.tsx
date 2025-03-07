@@ -12,6 +12,7 @@ const GoogleOauthButton = (props: { label: string }) => {
       variant='outline'
       type='button'
       className='w-full'
+      disabled
     >
       <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>
         <path
