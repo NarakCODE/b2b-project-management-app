@@ -38,7 +38,7 @@ app.use(
 
       const allowedOrigins = [
         process.env.FRONTEND_ORIGIN,
-        'https://b2b-project-management-app-client.vercel.app/',
+        'https://b2b-project-management-app-client.vercel.app',
       ];
 
       if (
@@ -56,6 +56,9 @@ app.use(
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   })
 );
+
+// Add this line to handle preflight requests
+app.options('*', cors());
 
 app.use(
   session({
