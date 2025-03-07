@@ -22,7 +22,7 @@ export const protectedRoutePaths = [
   { path: PROTECTED_ROUTES.MEMBERS, element: <Members /> },
   { path: PROTECTED_ROUTES.SETTINGS, element: <Settings /> },
   { path: PROTECTED_ROUTES.PROJECT_DETAILS, element: <ProjectDetails /> },
-  {path: PROTECTED_ROUTES.PROFILE, element: <Profile />},
+  { path: PROTECTED_ROUTES.PROFILE, element: <Profile /> },
 ];
 
 export const baseRoutePaths = [
